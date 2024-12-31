@@ -16,4 +16,19 @@ function getEditor() {
   return editor;
 }
 
-module.exports = { getEditor };
+function getNotesDir() {
+  const notesDir = process.env.NOTES_DIR;
+
+  if (!notesDir) {
+    const isWindows = process.platform === "win32";
+    throw new Error(
+      isWindows
+        ? "Notes directory not set. Run: set NOTES_DIR=<path>"
+        : "Notes directory not set. Run: export NOTES_DIR=<path>"
+    );
+  }
+
+  return notesDir;
+}
+
+module.exports = { getEditor, getNotesDir };
