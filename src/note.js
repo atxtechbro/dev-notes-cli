@@ -6,6 +6,8 @@ const os = require("os");
 const { getEditor, getNotesDir } = require("./config");
 
 try {
+  // Validate editor first before any file operations
+  const editor = getEditor();
   const NOTES_DIR = getNotesDir();
   !fs.existsSync(NOTES_DIR) && fs.mkdirSync(NOTES_DIR, { recursive: true });
 
@@ -31,8 +33,7 @@ ${context}
 `;
 
   fs.writeFileSync(FILENAME, content);
-
-  execSync(`${getEditor()} "${FILENAME}"`, { stdio: "inherit" });
+  execSync(`${editor} "${FILENAME}"`, { stdio: "inherit" });
   console.log(`Note saved: ${FILENAME}`);
 } catch (error) {
   console.error(error.message);
